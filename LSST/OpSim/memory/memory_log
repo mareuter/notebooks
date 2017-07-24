@@ -1,0 +1,21 @@
+#!/bin/bash
+
+socs_pid=$1
+sched_pid=$2
+to_MB=$(c 1024*1024)
+
+alive=1
+
+until [ ${alive} -eq 0 ]; do
+	timestamp=$(date +"%s")
+	socs_mem=$(c $(ps -q ${socs_pid} -o rss=)/${to_MB})
+	if [[ "${socs_mem}" == "" ]]; then
+		alive=0
+	fi
+	if [ ${alive} -eq 1 ]; then
+		sched_mem=$(c $(ps -q ${sched_pid} -o rss=)/${to_MB})
+		echo "${timestamp} ${socs_mem}" >> socs_mem.log
+		echo "${timestamp} ${sched_mem}" >> sched_mem.log
+		sleep 1m
+	fi
+done
