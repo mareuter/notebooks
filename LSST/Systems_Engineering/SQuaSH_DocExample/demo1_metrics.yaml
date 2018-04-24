@@ -1,0 +1,19 @@
+ZeropointRMS:
+  unit: mmag
+  description: >
+    Photometric calibration RMS.
+  reference:
+    url: https://example.com/PhotRMS
+  tags:
+    - photometry
+    - demo
+
+Completeness:
+  unit: mag
+  description: >
+    Magnitude of the catalog's 50% completeness limit.
+  reference:
+    url: https://example.com/Complete
+  tags:
+    - photometry
+    - demo
