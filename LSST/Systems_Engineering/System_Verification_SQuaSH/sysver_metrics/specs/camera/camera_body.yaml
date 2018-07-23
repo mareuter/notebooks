@@ -1,0 +1,22 @@
+name: "minimum"
+metric: "CameraBodySurfaceTemp"
+threshold:
+  operator: ">="
+  unit: "Celcius"
+  value: 8.0
+tags:
+  - "minimum"
+  - "sysver"
+  - "demo"
+
+---
+name: "maximum"
+metric: "CameraBodySurfaceTemp"
+threshold:
+  operator: "<="
+  unit: "Celcius"
+  value: 13.0
+tags:
+  - "maximum"
+  - "sysver"
+  - "demo"
