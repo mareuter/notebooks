@@ -2,7 +2,7 @@ name: "minimum"
 metric: "CameraBodySurfaceTemp"
 threshold:
   operator: ">="
-  unit: "Celcius"
+  unit: "Celsius"
   value: 8.0
 tags:
   - "minimum"
@@ -14,7 +14,7 @@ name: "maximum"
 metric: "CameraBodySurfaceTemp"
 threshold:
   operator: "<="
-  unit: "Celcius"
+  unit: "Celsius"
   value: 13.0
 tags:
   - "maximum"
