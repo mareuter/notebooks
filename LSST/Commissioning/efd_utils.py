@@ -12,7 +12,7 @@ AVAILABLE_EFDS = {"summit": "summit-influxdb-efd.lsst.codes",
 
 QUERY_BASE = "SELECT {columns} FROM \"efd\".\"autogen\".\"lsst.sal.{csc}.{topic}\""
 QUERY_TIME_RANGE = "{time_column} >= \'{start}\' AND {time_column} <= \'{end}\'"
-QUERY_LAST_TIME = "ORDER BY {time_column} DESC LIMIT 1"
+QUERY_LAST_TIME = "ORDER BY {time_column} DESC LIMIT {limit}"
 
 def get_client(which_efd):
     efd_url = AVAILABLE_EFDS[which_efd]
@@ -43,10 +43,10 @@ def get_base_query(columns, csc_name, topic_name, csc_index=0, ):
         
     return query
 
-def get_time_clause(time_column="time", last=False, date_range=None):
+def get_time_clause(time_column="time", last=False, limit=1, date_range=None):
     query = ""
     if last:
-        query += QUERY_LAST_TIME.format(time_column=time_column)
+        query += QUERY_LAST_TIME.format(time_column=time_column, limit=limit)
     else:
         if date_range is None:
             last = datetime.utcnow()
@@ -68,10 +68,13 @@ def get_cscs(csc_file):
     with open(csc_file, 'r') as ifile:
         for line in ifile:
             v = line.strip()
-            if '=' in v:
-                parts = v.split('=')
-                cscs.append(parts[0], int(parts[1]))
-            else:
-                cscs.append(CSC(v, 0))
+            cscs.append(parse_csc(v))
         
     return cscs
+
+def parse_csc(csc_str):
+    if '=' in csc_str:
+        parts = csc_str.split('=')
+        return CSC(parts[0], int(parts[1]))
+    else:
+        return CSC(csc_str, 0)
