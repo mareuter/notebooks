@@ -5,7 +5,26 @@ import os
 import aioinflux
 
 Token = collections.namedtuple("Token", ["uname", "pwd"])
-CSC = collections.namedtuple("CSC", ["name", "index"])
+
+class CSC:
+    def __init__(self, name, index):
+        self.name = name
+        self.index = index
+
+    @property
+    def full_name(self):
+        _csc_name = f"{self.name}"
+        if self.index:
+            _csc_name += f":{self.index}"
+        return _csc_name
+
+    @classmethod
+    def from_entry(cls, csc_str):
+        if '=' in csc_str:
+            parts = csc_str.split('=')
+            return CSC(parts[0], int(parts[1]))
+        else:
+            return CSC(csc_str, 0)
 
 AVAILABLE_EFDS = {"summit": "summit-influxdb-efd.lsst.codes",
                   "tucson": "test-influxdb-efd.lsst.codes"}
@@ -32,14 +51,14 @@ def get_token(which_efd):
         pwd = fd.readline().strip()
     return Token(uname, pwd)
 
-def get_base_query(columns, csc_name, topic_name, csc_index=0, ):
+def get_base_query(columns, csc_name, topic_name, csc_index=0):
     query_columns = ",".join(columns)
-    if csc_index:
+    if csc_index and columns[0] != "*":
         query_columns += f",{csc_name}ID"
-    
+
     query = QUERY_BASE.format(columns=query_columns, csc=csc_name, topic=topic_name)
     if csc_index:
-        query += f" WHERE {csc_name}ID = {csc_index}"
+        query += f" WHERE {csc_name}ID={csc_index}"
         
     return query
 
@@ -68,13 +87,6 @@ def get_cscs(csc_file):
     with open(csc_file, 'r') as ifile:
         for line in ifile:
             v = line.strip()
-            cscs.append(parse_csc(v))
+            cscs.append(CSC.from_entry(v))
         
     return cscs
-
-def parse_csc(csc_str):
-    if '=' in csc_str:
-        parts = csc_str.split('=')
-        return CSC(parts[0], int(parts[1]))
-    else:
-        return CSC(csc_str, 0)
