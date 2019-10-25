@@ -1,0 +1,3 @@
+location: "tucson"
+csc_name: "ATHeaderService=0"
+topic_name: "logevent_heartbeat"
