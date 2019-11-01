@@ -14,7 +14,7 @@ try:
     now = datetime.strptime(sys.argv[1], DATE_FORMAT)
 except IndexError:
     now = datetime.now().date()
-yesterday = now - ONE_DAY
+next_day = now + ONE_DAY
 
 try:
     csc_name = sys.argv[2]
@@ -31,7 +31,7 @@ try:
 except IndexError:
     frequency = 1
 
-output_notebook = f'PTP_Check_{csc_name}_{topic_name}_{yesterday.strftime("%Y%m%d")}.ipynb'
+output_notebook = f'PTP_Check_{csc_name}_{topic_name}_{now.strftime("%Y%m%d")}.ipynb'
 output_html = output_notebook.replace('ipynb', 'html')
 
 pm.execute_notebook(
@@ -39,8 +39,8 @@ pm.execute_notebook(
    output_notebook,
    parameters=dict(csc_name=csc_name, topic_name=topic_name,
                    frequency=frequency,
-                   start_str=yesterday.strftime(DATE_FORMAT),
-                   end_str=now.strftime(DATE_FORMAT))
+                   start_str=now.strftime(DATE_FORMAT),
+                   end_str=next_day.strftime(DATE_FORMAT))
 )
 
 subprocess.run(["jupyter", "nbconvert", "--config", NBCONVERT_CONFIG,
