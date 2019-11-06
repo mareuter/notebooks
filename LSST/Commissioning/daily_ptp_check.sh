@@ -8,3 +8,4 @@ check_date=$1
 python ptp_check_run.py ${check_date}
 python ptp_check_run.py ${check_date} ATCamera wreb 0.1
 python ptp_check_run.py ${check_date} ScriptQueue
+python ptp_check_run.py ${check_date} ATSpectrograph
