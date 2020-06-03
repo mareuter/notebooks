@@ -1,0 +1,5 @@
+tablename: "lsst.sal.MTM1M3.hardpointActuatorData"
+columnName: "displacement0"
+# Rate is in Hz (1/sec)
+# Can be expressed as x / y if necessary
+expectedRate: 50
