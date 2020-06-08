@@ -1,0 +1,5 @@
+tablename: "lsst.sal.Hexapod.actuators"
+columnName: "calibrated0"
+cscIndex: 1
+expectedRate: 20
+plotTitle: "Camera Hexapod Actuators"
