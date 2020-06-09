@@ -3,3 +3,4 @@ columnName: "displacement0"
 # Rate is in Hz (1/sec)
 # Can be expressed as x / y if necessary
 expectedRate: 50
+plotTitle: "M1M3 Hardpoint Actuator Data"
