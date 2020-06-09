@@ -8,6 +8,7 @@ import yaml
 
 DATE_FORMAT = "%Y%m%d_%H%M"
 NBCONVERT_CONFIG = "nbconvert_config.py"
+OUTPUT_DIR = "reports"
 
 def main(opts):
 
@@ -17,12 +18,16 @@ def main(opts):
     parts = topic.split(".")
     csc_name = parts[2]
     topic_name = parts[3].split('_')[-1]
+    try:
+        csc_index = ":" + str(info["cscIndex"])
+    except KeyError:
+        csc_index = ""
     start_time = Time(opts.start_time, scale="tai")
     end_time = Time(opts.end_time, scale="tai")
     start_time_fmt = start_time.strftime(DATE_FORMAT)
     end_time_fmt = end_time.strftime(DATE_FORMAT)
 
-    output_notebook = f"{csc_name}_{topic_name}_S{start_time_fmt}_E{end_time_fmt}.ipynb"
+    output_notebook = f"{csc_name}{csc_index}_{topic_name}_S{start_time_fmt}_E{end_time_fmt}.ipynb"
     output_html = output_notebook.replace('ipynb', 'html')
 
     pm.execute_notebook(
@@ -32,10 +37,11 @@ def main(opts):
                         start_time_str=opts.start_time, end_time_str=opts.end_time)
     )
 
-    subprocess.run(["jupyter", "nbconvert", "--config", NBCONVERT_CONFIG, output_notebook])
+    subprocess.run(["jupyter", "nbconvert", "--config", NBCONVERT_CONFIG,
+                    "--output-dir", OUTPUT_DIR, output_notebook])
 
     while True:
-        if os.path.exists(os.path.join(".", output_html)):
+        if os.path.exists(os.path.join(OUTPUT_DIR, output_html)):
             os.remove(output_notebook)
             break
 
