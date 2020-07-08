@@ -1,0 +1,4 @@
+tablename: "lsst.sal.NewMTMount.logevent_target"
+columnName: "azimuth"
+expectedRate: 20
+plotTitle: "NewMTMount Target"

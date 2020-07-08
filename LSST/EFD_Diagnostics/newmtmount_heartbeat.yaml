@@ -1,0 +1,4 @@
+tablename: "lsst.sal.NewMTMount.logevent_heartbeat"
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "NewMTMount Heartbeat"

@@ -1,0 +1,4 @@
+tablename: "lsst.sal.Rotator.motors"
+columnName: "calibrated0"
+expectedRate: 10
+plotTitle: "Rotator Motor"
