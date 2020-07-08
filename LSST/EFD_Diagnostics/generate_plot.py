@@ -12,6 +12,9 @@ OUTPUT_DIR = "reports"
 
 def main(opts):
 
+    if not os.path.exists(os.path.join(OUTPUT_DIR, opts.database)):
+        os.mkdir(os.path.join(OUTPUT_DIR, opts.database))
+
     with open(opts.config) as ifile:
         info = yaml.safe_load(ifile)
     topic = info["tablename"]
@@ -38,10 +41,11 @@ def main(opts):
     )
 
     subprocess.run(["jupyter", "nbconvert", "--config", NBCONVERT_CONFIG,
-                    "--output-dir", OUTPUT_DIR, output_notebook])
+                    "--output-dir", os.path.join(OUTPUT_DIR, opts.database),
+                    output_notebook])
 
     while True:
-        if os.path.exists(os.path.join(OUTPUT_DIR, output_html)):
+        if os.path.exists(os.path.join(OUTPUT_DIR, opts.database, output_html)):
             os.remove(output_notebook)
             break
 
