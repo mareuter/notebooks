@@ -37,6 +37,7 @@ def main(opts):
         'EFD_Message_Tracking.ipynb',
         output_notebook,
         parameters=dict(ifilename=opts.config, efd_name=opts.database,
+                        time_inc_secs=opts.time_inc,
                         start_time_str=opts.start_time, end_time_str=opts.end_time)
     )
 
@@ -54,6 +55,8 @@ if __name__ == "__main__":
 
     parser.add_argument("-d", "--database", dest="database", help="The EFD to get the data from")
     parser.add_argument("-c", "--config", dest="config", help="Provide the YAML configuration file")
+    parser.add_argument("-t", "--time-inc", dest="time_inc", default=600, type=int,
+                        help="The time increment in seconds to bin the data.")
     parser.add_argument("start_time", help="Set the query start time (TAI) in ISO8601 format")
     parser.add_argument("end_time", help="Set the query end time (TAI) in ISO8601 format")
 
