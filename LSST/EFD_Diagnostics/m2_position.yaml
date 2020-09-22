@@ -1,0 +1,6 @@
+tablename: "lsst.sal.MTM2.position"
+columnName: "x"
+# Rate is in Hz (1/sec)
+# Can be expressed as x / y if necessary
+expectedRate: 1
+plotTitle: "M2 Position"

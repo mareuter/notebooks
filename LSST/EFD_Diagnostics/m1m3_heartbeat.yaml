@@ -1,0 +1,4 @@
+tablename: "lsst.sal.MTM1M3.logevent_heartbeat"
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "M1M3 Heartbeat"
