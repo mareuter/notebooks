@@ -44,10 +44,10 @@ def main(opts):
                     "--output-dir", os.path.join(OUTPUT_DIR, opts.database),
                     output_notebook])
 
-    #while True:
-    #    if os.path.exists(os.path.join(OUTPUT_DIR, opts.database, output_html)):
-    #        os.remove(output_notebook)
-    #        break
+    while True:
+        if os.path.exists(os.path.join(OUTPUT_DIR, opts.database, output_html)):
+            os.remove(output_notebook)
+            break
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
