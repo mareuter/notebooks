@@ -30,7 +30,7 @@ def main(opts):
     start_time_fmt = start_time.strftime(DATE_FORMAT)
     end_time_fmt = end_time.strftime(DATE_FORMAT)
 
-    output_notebook = f"{csc_name}{csc_index}_{topic_name}_S{start_time_fmt}_E{end_time_fmt}.ipynb"
+    output_notebook = f"{csc_name}{csc_index}_{topic_name}_S{start_time_fmt}_E{end_time_fmt}_old.ipynb"
     output_html = output_notebook.replace('ipynb', 'html')
 
     pm.execute_notebook(
