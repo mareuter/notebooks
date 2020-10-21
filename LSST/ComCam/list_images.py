@@ -65,16 +65,19 @@ def list_cc_images(date_filter, butler_path="/lsstdata/offline/teststand/NCSA_co
             if from_seqnum is not None and seqnum <= from_seqnum:
                 continue
             dataId = dict(**dfilter, seqnum=seqnum)
-            raw = butler.get('raw', dataId)
-            header = raw.getInfo().getMetadata().toDict()
-            if is_ccs:
-                info = (header['DATE-OBS'], seqnum, header['IMGTYPE'],
-                        header['TESTTYPE'], header['EXPTIME'])#, header['FILTER']]
-            else:
-                info = (header['DATE-OBS'], seqnum, str(header['OBJECT']), header['IMGTYPE'],
-                        header['TESTTYPE'], header['EXPTIME'])#, header['FILTER']]                
-            #print("\t".join(info))
-            infos.append(info)
+            try:
+                raw = butler.get('raw', dataId)
+                header = raw.getInfo().getMetadata().toDict()
+                if is_ccs:
+                    info = (header['DATE-OBS'], seqnum, header['IMGTYPE'],
+                            header['TESTTYPE'], header['EXPTIME'])#, header['FILTER']]
+                else:
+                    info = (header['DATE-OBS'], seqnum, str(header['OBJECT']), header['IMGTYPE'],
+                            header['TESTTYPE'], header['EXPTIME'])#, header['FILTER']]
+                #print("\t".join(info))
+                infos.append(info)
+            except Exception:
+                print(f"Skipping image {seqnum}")
         infos.sort(key=operator.itemgetter(1))
         if save_file:
             for info in infos:
