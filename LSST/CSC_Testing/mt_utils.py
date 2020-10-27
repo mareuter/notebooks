@@ -92,6 +92,11 @@ async def slew_to_target(mtcs, target_name, ra, dec, rotpa):
 
     await slew2(mtcs)
 
+async def stop_mt_tracking(mtcs):
+    ack = await mtcs.rem.mtptg.cmd_stopTracking.start(timeout=30.)
+    print("Stop Tracking")
+    print(f"ack={ack.ack} ack.error={ack.error}, ackcmd.result={ack.result}")
+
 async def slew2(mtcs, stop_tracking=False):
     print("Slewing Telescope")
     ack = await mtcs.rem.mtptg.cmd_raDecTarget.start(timeout=30.)
@@ -100,9 +105,7 @@ async def slew2(mtcs, stop_tracking=False):
     print(result)
 
     if stop_tracking:
-        ack = await mtcs.rem.mtptg.cmd_stopTracking.start(timeout=30.)
-        print("Stop Tracking")
-        print(f"ack={ack.ack} ack.error={ack.error}, ackcmd.result={ack.result}")
+        await stop_mt_tracking(mtcs)
 
 async def slew(mtcs, stop_tracking=False):
     print("Slewing Telescope")
@@ -116,6 +119,4 @@ async def slew(mtcs, stop_tracking=False):
             break
 
     if stop_tracking:
-        ack = await mtcs.rem.mtptg.cmd_stopTracking.start(timeout=30.)
-        print("Stop Tracking")
-        print(f"ack={ack.ack} ack.error={ack.error}, ackcmd.result={ack.result}")
+        await stop_mt_tracking(mtcs)
