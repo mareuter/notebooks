@@ -1,0 +1,5 @@
+tablename: "lsst.sal.ScriptQueue.logevent_heartbeat"
+cscIndex: 2
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "ATScriptQueue Heartbeat"

@@ -1,0 +1,4 @@
+tablename: "lsst.sal.Watcher.logevent_heartbeat"
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "Watcher Heartbeat"

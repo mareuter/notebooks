@@ -1,0 +1,6 @@
+tablename: "lsst.sal.MTM1M3.forceActuatorData"
+columnName: "forceMagnitude"
+# Rate is in Hz (1/sec)
+# Can be expressed as x / y if necessary
+expectedRate: 20
+plotTitle: "M1M3 Force Actuator Data"
