@@ -57,7 +57,7 @@ def list_at_images(date_filter, butler_path="/project/shared/auxTel", from_seqnu
             dataId = dict(**dfilter, seqnum=seqnum)
             raw = butler.get('raw', dataId)
             header = raw.getInfo().getMetadata().toDict()
-            info = [header['DATE-OBS'], str(seqnum), header['OBJECT'], header['IMGTYPE'],
+            info = [header['DATE-OBS'], str(seqnum), str(header['OBJECT']), header['IMGTYPE'],
                     str(header['EXPTIME']), header['FILTER'], header['GRATING']]
             print("\t".join(info))
             if save_file:
