@@ -42,6 +42,7 @@ def main(opts):
 
     subprocess.run(["jupyter", "nbconvert", "--config", NBCONVERT_CONFIG,
                     "--output-dir", os.path.join(OUTPUT_DIR, opts.database),
+                    "--to", "html",
                     output_notebook])
 
     while True:
