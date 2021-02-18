@@ -2,12 +2,14 @@ __all__ = ["check_float", "check"]
 
 import numpy as np
 
+
 def check(values, truth, keyword):
     value = values[keyword]
     if truth == value:
         print(f"{keyword} OK")
     else:
         print(f"Problem with {keyword}: {truth} != {value}")
+
         
 def check_float(values, truth, keyword, precision=1e-8):
     value = values[keyword]
