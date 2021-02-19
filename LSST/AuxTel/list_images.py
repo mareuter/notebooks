@@ -1,4 +1,5 @@
 import csv
+import operator
 import warnings
 
 import lsst.daf.persistence as dafPersist
@@ -50,6 +51,7 @@ def list_at_images(date_filter, butler_path="/project/shared/auxTel", from_seqnu
             writer.writerow(titles)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
+        infos = []
         for image in images:
             seqnum = image[1]
             if from_seqnum is not None and seqnum <= from_seqnum:
@@ -60,5 +62,9 @@ def list_at_images(date_filter, butler_path="/project/shared/auxTel", from_seqnu
             info = [header['DATE-OBS'], str(seqnum), str(header['OBJECT']), header['IMGTYPE'],
                     str(header['EXPTIME']), header['FILTER'], header['GRATING']]
             print("\t".join(info))
-            if save_file:
+            infos.append(info)
+        infos.sort(key=operator.itemgetter(0))
+        if save_file:
+            for info in infos:
                 writer.writerow(info)
+
