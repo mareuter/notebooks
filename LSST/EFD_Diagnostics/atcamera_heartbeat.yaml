@@ -1,0 +1,4 @@
+tablename: "lsst.sal.ATCamera.logevent_heartbeat"
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "ATCamera Heartbeat"

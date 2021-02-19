@@ -1,0 +1,4 @@
+tablename: "lsst.sal.ATMCS.logevent_heartbeat"
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "ATMCS Heartbeat"
