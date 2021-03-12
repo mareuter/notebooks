@@ -2,6 +2,7 @@ from astropy.coordinates import AltAz, ICRS, EarthLocation, Angle
 from astropy.time import Time
 import astropy.units as u
 
+from lsst.ts.observatory.control.utils import RotType
 from lsst.ts import salobj
 
 def altaz_to_radec(alt, az):
@@ -26,71 +27,31 @@ def altaz_to_radec(alt, az):
 async def slew_to_park(mtcs, rotpa=0.0):
     ra_dec = altaz_to_radec(80.0, 0.0)
 
-    mtcs.rem.mtptg.cmd_raDecTarget.set(
-        ra=ra_dec.ra.hour,
-        declination=ra_dec.dec.deg,
-        rotPA=Angle(rotpa, unit=u.deg).deg,
-        targetName="Park position",
-        frame=2,
-        epoch=2000,
-        equinox=2000,
-        parallax=0,
-        pmRA=0,
-        pmDec=0,
-        rv=0,
-        dRA=0,
-        dDec=0,
-        rotFrame=1,
-        rotMode=1,
-    )
+    await mtcs.slew_icrs(ra=ra_dec.ra.hour,
+                         dec=ra_dec.dec.deg,
+                         rot=Angle(rotpa, unit=u.deg).deg,
+                         rot_type=RotType.PhysicalSky,
+                         target_name="Park position")
+    await stop_mt_tracking(mtcs)
 
-    await slew(mtcs, True)
-
-async def slew_to_flatfield(mtcs, rotpa=-180.0):
+async def slew_to_flatfield(mtcs, rotpa=0.0):
     ra_dec = altaz_to_radec(39.0, 205.7)
 
-    mtcs.rem.mtptg.cmd_raDecTarget.set(
-        ra=ra_dec.ra.hour,
-        declination=ra_dec.dec.deg,
-        rotPA=Angle(rotpa, unit=u.deg).deg,
-        targetName="Flatfield position",
-        frame=2,
-        epoch=2000,
-        equinox=2000,
-        parallax=0,
-        pmRA=0,
-        pmDec=0,
-        rv=0,
-        dRA=0,
-        dDec=0,
-        rotFrame=1,
-        rotMode=1,
-    )
-
-    await slew(mtcs, True)
+    await mtcs.slew_icrs(ra=ra_dec.ra.hour,
+                         dec=ra_dec.dec.deg,
+                         rot=Angle(rotpa, unit=u.deg).deg,
+                         rot_type=RotType.PhysicalSky,
+                         target_name="Flatfield position")
+    await stop_mt_tracking(mtcs)
 
 async def slew_to_target(mtcs, target_name, ra, dec, rotpa):
     radec_icrs = ICRS(Angle(ra, unit=u.hourangle), Angle(dec, unit=u.deg))
 
-    mtcs.rem.mtptg.cmd_raDecTarget.set(
-        ra=radec_icrs.ra.hour,
-        declination=radec_icrs.dec.deg,
-        rotPA=Angle(rotpa, unit=u.deg).deg,
-        targetName=target_name,
-        frame=2,
-        epoch=2000,
-        equinox=2000,
-        parallax=0,
-        pmRA=0,
-        pmDec=0,
-        rv=0,
-        dRA=0,
-        dDec=0,
-        rotFrame=1,
-        rotMode=1,
-    )
-
-    await slew2(mtcs)
+    await mtcs.slew_icrs(ra=radec_icrs.ra.hour,
+                         dec=radec_icrs.dec.deg,
+                         rot=Angle(rotpa, unit=u.deg).deg,
+                         rot_type=RotType.PhysicalSky,
+                         target_name=target_name)
 
 async def stop_mt_tracking(mtcs):
     ack = await mtcs.rem.mtptg.cmd_stopTracking.start(timeout=30.)
