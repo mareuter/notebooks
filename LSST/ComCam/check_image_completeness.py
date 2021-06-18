@@ -56,13 +56,15 @@ async def main(opts):
             print(f"Images missing all sensors: {len(missing_images)}")
             print(f"Percentage of bad images: {(((bad_images.size + len(missing_images))/num_images)*100):.2f}%")
             if opts.show_missing:
-                print("Images Missing All Sensors")
-                for image_name in missing_images:
-                    print(image_name)
-                print("Images Missing Some Sensors")
-                for image_name, missing_sensors in some_missing_images:
-                    sensor_str = ":".join(missing_sensors)
-                    print(f"{image_name}   {sensor_str}")
+                if len(missing_images):
+                    print("Images Missing All Sensors")
+                    for image_name in missing_images:
+                        print(image_name)
+                if len(some_missing_images):
+                    print("Images Missing Some Sensors")
+                    for image_name, missing_sensors in some_missing_images:
+                        sensor_str = ":".join(missing_sensors)
+                        print(f"{image_name}   {sensor_str}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
