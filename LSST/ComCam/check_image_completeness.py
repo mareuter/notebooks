@@ -6,8 +6,7 @@ from astropy.time import Time, TimeDelta
 from lsst_efd_client import EfdClient
 
 async def main(opts):
-    efd_name = "ldf_stable_efd"
-    client = EfdClient(efd_name)
+    client = EfdClient(opts.efd)
     
     obs_beg = Time(f"{opts.check_date}T12:00", scale="tai")
     delta = TimeDelta(24*3600.0, format="sec", scale="tai")
@@ -71,6 +70,7 @@ if __name__ == "__main__":
     
     parser.add_argument("check_date", help="The date to check for image completeness.")
     parser.add_argument("-m", "--show-missing", action="store_true", help="List the images missing sensors.")
+    parser.add_argument("--efd", default="ldf_stable_efd", help="Specify the EFD to use.")
     
     args = parser.parse_args()
     asyncio.run(main(args))
