@@ -2,6 +2,7 @@ from astropy.coordinates import AltAz, ICRS, EarthLocation, Angle
 from astropy.time import Time
 import astropy.units as u
 
+from lsst.ts.idl.enums import MTM1M3
 from lsst.ts.observatory.control.utils import RotType
 from lsst.ts import salobj
 
@@ -53,6 +54,15 @@ async def slew_to_target(mtcs, target_name, ra, dec, rotpa):
                          rot_type=RotType.PhysicalSky,
                          target_name=target_name)
 
+async def slew_to_altaz(mtcs, alt, az, rotpa=0.0):
+    ra_dec = altaz_to_radec(alt, az)
+
+    await mtcs.slew_icrs(ra=ra_dec.ra.hour,
+                         dec=ra_dec.dec.deg,
+                         rot=Angle(rotpa, unit=u.deg).deg,
+                         rot_type=RotType.PhysicalSky,
+                         target_name="AltAz position")    
+
 async def stop_mt_tracking(mtcs):
     ack = await mtcs.rem.mtptg.cmd_stopTracking.start(timeout=30.)
     print("Stop Tracking")
@@ -81,3 +91,26 @@ async def slew(mtcs, stop_tracking=False):
 
     if stop_tracking:
         await stop_mt_tracking(mtcs)
+
+
+async def lower_M1M3_mirror(mtcs):
+    m1m3 = mtcs.rem.mtm1m3
+    m1m3.evt_detailedState.flush()
+    await m1m3.cmd_lowerM1M3.set_start(lowerM1M3=True, timeout = 30)
+    while True:
+        state = await m1m3.evt_detailedState.next(flush=False, timeout=300)
+        print(MTM1M3.DetailedState(state.detailedState))
+        if (MTM1M3.DetailedState(state.detailedState) == MTM1M3.DetailedState.PARKED
+                or MTM1M3.DetailedState(state.detailedState) == MTM1M3.DetailedState.PARKEDENGINEERING):
+            break
+            
+async def raise_M1M3_mirror(mtcs):
+    m1m3 = mtcs.rem.mtm1m3
+    m1m3.evt_detailedState.flush()
+    await m1m3.cmd_raiseM1M3.set_start(raiseM1M3=True, timeout = 30)
+    while True:
+        state = await m1m3.evt_detailedState.next(flush=False, timeout=300)
+        print(MTM1M3.DetailedState(state.detailedState))
+        if (MTM1M3.DetailedState(state.detailedState) == MTM1M3.DetailedState.ACTIVE
+                or MTM1M3.DetailedState(state.detailedState) == MTM1M3.DetailedState.ACTIVEENGINEERING):
+            break
