@@ -25,8 +25,8 @@ def main(opts):
         csc_index = ":" + str(info["cscIndex"])
     except KeyError:
         csc_index = ""
-    start_time = Time(opts.start_time, scale="tai")
-    end_time = Time(opts.end_time, scale="tai")
+    start_time = Time(opts.start_time, scale="utc")
+    end_time = Time(opts.end_time, scale="utc")
     start_time_fmt = start_time.strftime(DATE_FORMAT)
     end_time_fmt = end_time.strftime(DATE_FORMAT)
 
