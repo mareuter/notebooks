@@ -65,6 +65,8 @@ async def main(opts):
                         sensor_str = ":".join(missing_sensors)
                         print(f"{image_name}   {sensor_str}")
 
+    await client.influx_client.close()
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     
