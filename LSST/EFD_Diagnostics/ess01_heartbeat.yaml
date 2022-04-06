@@ -1,0 +1,5 @@
+tablename: "lsst.sal.ESS.logevent_heartbeat"
+cscIndex: 1
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "ESS01 Heartbeat"

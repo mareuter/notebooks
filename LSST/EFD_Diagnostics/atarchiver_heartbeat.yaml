@@ -1,4 +1,0 @@
-tablename: "lsst.sal.ATArchiver.logevent_heartbeat"
-columnName: "heartbeat"
-expectedRate: 1
-plotTitle: "ATArchiver Heartbeat"

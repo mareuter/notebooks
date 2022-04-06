@@ -1,4 +1,0 @@
-tablename: "lsst.sal.CCArchiver.logevent_heartbeat"
-columnName: "heartbeat"
-expectedRate: 1
-plotTitle: "CCArchiver Heartbeat"

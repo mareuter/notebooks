@@ -1,0 +1,4 @@
+tablename: "lsst.sal.ATPtg.logevent_heartbeat"
+columnName: "heartbeat"
+expectedRate: 1
+plotTitle: "ATPtg Heartbeat"
