@@ -5,13 +5,14 @@ import astropy.units as u
 from lsst.ts.idl.enums import MTM1M3
 from lsst.ts.observatory.control.utils import RotType
 from lsst.ts import salobj
+import lsst.ts.utils as tsUtils
 
 def altaz_to_radec(alt, az):
     location = EarthLocation.from_geodetic(
         lon=-70.747698 * u.deg, lat=-30.244728 * u.deg, height=2663.0 * u.m
     )
 
-    current_time = salobj.astropy_time_from_tai_unix(salobj.current_tai())
+    current_time = tsUtils.astropy_time_from_tai_unix(tsUtils.current_tai())
     current_time.location = location
 
     coord_frame_radec = ICRS()
