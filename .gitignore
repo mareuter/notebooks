@@ -2,3 +2,4 @@
 __pycache__
 ospl-info.log
 ospl-error.log
+*.all
